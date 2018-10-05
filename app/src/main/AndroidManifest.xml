@@ -12,10 +12,10 @@
         <activity
             android:name="android.app.NativeActivity"
             android:configChanges = "orientation|keyboardHidden"
-            android:lable="@string/app_name">
+            android:label="@string/app_name">
             <meta-data
                 android:name="android.app.lib_name"
-                android:value="burnout_gdk" />
+                android:value="burnout_engine" />
             <intent-filter>
                 <action android:name = "android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
