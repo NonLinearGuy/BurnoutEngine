@@ -14,6 +14,8 @@ enum class EProcessState
     RUNNING,
     PAUSED,
 
+    RESUMED,
+
     ABORTED,
     SUCECCEDED,
     FAILED
@@ -27,9 +29,9 @@ class IProcess
 public:
     IProcess();
     ~IProcess();
-    virtual bool OnStart() {}
-    virtual bool OnPause() {}
-    virtual bool OnResume() {}
+    virtual bool OnInit() {return true;}
+    virtual void OnPause() {}
+    virtual void OnResume() {}
     virtual void OnAbort() {}
     virtual void OnFailed() {}
     virtual void OnSuccess() {}
@@ -86,7 +88,7 @@ inline void IProcess::AddChild(SharedProcess pChild)
         m_Child = pChild;
 }
 
-void SetState(EProcessState pCurrentState)
+inline void IProcess::SetState(EProcessState pCurrentState)
 {
     m_CurrentState = pCurrentState;
 }

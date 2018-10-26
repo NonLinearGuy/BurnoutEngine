@@ -16,18 +16,19 @@ class ProcessHandler
 public:
     static std::shared_ptr<ProcessHandler> GetInstance()
     {
-        static auto instance = std::make_shared<ProcessHandler>();
+        static auto instance = std::shared_ptr<ProcessHandler>(new ProcessHandler());
         return instance;
     }
 
     void AddProcess(SharedProcess NewProcess);
-    void ClearAll();
+    void AbortAll();
     void Pause();
     void Resume();
     inline unsigned GetProcessCount();
 
-    void Update(float DeltaTime);
+    void Tick();
 
+    ~ProcessHandler();
 private:
 
     ProcessHandler();

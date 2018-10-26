@@ -3,21 +3,19 @@
 //
 
 #include<android/log.h>
-#include <Application.hpp>
-#include"GLESApp.hpp"
-#include"AndroidCallbacksManager.hpp"
+#include "BurnoutApp.hpp"
 
 extern "C"
 {
-    void android_main(struct android_app* state)
+    void android_main(android_app* state)
     {
-       Application* app = new GLESApp(state);
+        auto sharedAppState = std::make_shared<android_app>();
+        sharedAppState.reset(state);
+
+       BurnoutApp* app = new BurnoutApp(sharedAppState);
 
         if(app->Initialize())
-        {
-            AndroidCallbacksManager::SetupCallbacks(state,app);
             app->Run();
-        }
         else
         __android_log_print(10,"BurnoutEngine","Failed to initialize GLES application");
         delete app;

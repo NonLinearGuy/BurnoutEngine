@@ -10,10 +10,11 @@ set(CMAKE_SHARED_LINKER_FLAGS
 add_library( burnout_engine
              SHARED
              src/main/cpp/Main.cpp
-             src/main/cpp/Application.cpp
+             src/main/cpp/BurnoutApp.cpp
              src/main/cpp/IProcess.cpp
              src/main/cpp/ProcessHandler.cpp
-             src/main/cpp/AndroidCallbacksManager.cpp
+             src/main/cpp/Delay.cpp
+             src/main/cpp/GLESRenderer
              )
 
 add_library(native_app_glue STATIC
