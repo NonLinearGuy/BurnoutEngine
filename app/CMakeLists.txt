@@ -6,6 +6,8 @@ cmake_minimum_required(VERSION 3.4.1)
 set(CMAKE_SHARED_LINKER_FLAGS
     "${CMAKE_SHARED_LINKER_FLAGS} -u ANativeActivity_onCreate")
 
+# Import the CMakeLists.txt for the glm library
+add_subdirectory(src/main/cpp/glm)
 
 add_library( burnout_engine
              SHARED
@@ -15,6 +17,9 @@ add_library( burnout_engine
              src/main/cpp/ProcessHandler.cpp
              src/main/cpp/Delay.cpp
              src/main/cpp/GLESRenderer
+             src/main/cpp/Triangle
+             src/main/cpp/ShaderProgram
+             src/main/cpp/FileReader
              )
 
 add_library(native_app_glue STATIC
@@ -28,7 +33,8 @@ ${ANDROID_NDK}/sources/android/native_app_glue)
 # add lib dependencies
 target_link_libraries(burnout_engine
      android
+     glm
      native_app_glue
      EGL
-     GLESv2
+     GLESv3
      log)
