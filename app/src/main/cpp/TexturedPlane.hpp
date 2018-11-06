@@ -1,18 +1,26 @@
 //
-// Created by Ankit Singh on 31-10-2018.
+// Created by Ankit Singh on 03-11-2018.
 //
 
 #ifndef BURNOUTENGINE_TEXTUREDPLANE_HPP
 #define BURNOUTENGINE_TEXTUREDPLANE_HPP
 
-#include<SceneObject.cpp>
-
-class TexturedPlane : public SceneObject{
+#include<Renderable.hpp>
+#include "Texture2D.h"
+class TexturedPlane : public Renderable{
 public:
-    void Update()override;
-    void Draw()override;
+    TexturedPlane(const glm::vec3& worldPosition,const glm::vec3& color);
+    void Init()override;
+    void Destroy()override;
+    void Tick()override;
+    void Render() override;
+    void SetShaderValues();
+
 private:
 
+    glm::vec3 mColor;
+
+    Texture2D texture;
 };
 
 

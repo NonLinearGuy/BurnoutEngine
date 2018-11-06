@@ -6,6 +6,7 @@
 #include<cstdio>
 #include<android_native_app_glue.h>
 #include<FileReader.hpp>
+#include<glm/gtc/type_ptr.hpp>
 
 
 ShaderProgram::ShaderProgram()
@@ -84,3 +85,25 @@ void ShaderProgram::Use()
 {
     glUseProgram(mProgramID);
 }
+
+void ShaderProgram::Set1i(const std::string &varName, int value) {
+
+    GLuint location = glGetUniformLocation(mProgramID,varName.c_str());
+    glUniform1i(location,value);
+}
+
+void ShaderProgram::Set1f(const std::string &varName, float value) {
+    GLuint location = glGetUniformLocation(mProgramID,varName.c_str());
+    glUniform1f(location,value);
+}
+
+void ShaderProgram::SetVec3(const std::string &varName, const glm::vec3 &value) {
+    GLuint location = glGetUniformLocation(mProgramID,varName.c_str());
+    glUniform3f(location,value.x,value.y,value.z);
+}
+
+void ShaderProgram::SetMat4(const std::string &varName, glm::mat4 &mat) {
+    GLuint location = glGetUniformLocation(mProgramID,varName.c_str());
+    glUniformMatrix4fv(location,1,GL_FALSE,glm::value_ptr(mat));
+}
+

@@ -6,6 +6,7 @@
 #include "BurnoutApp.hpp"
 #include "Triangle.hpp"
 #include<FileReader.hpp>
+#include"android_fopen.h"
 
 extern "C"
 {
@@ -17,6 +18,7 @@ void android_main(android_app *state) {
     sharedAppState.reset(state);
 
     FileReader::GetInstance()->sAssetManager = state->activity->assetManager;
+    android_fopen_set_asset_manager(state->activity->assetManager);
 
   //  android_fopen_set_asset_manager(state->activity->assetManager);
 
