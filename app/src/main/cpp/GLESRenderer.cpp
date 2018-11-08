@@ -12,12 +12,14 @@
 #include<glm/glm.hpp>
 #include"Texture2D.h"
 #include"SpriteRenderer.h"
-
+#include"Camera.hpp"
+#include"Cubemap.hpp"
 
 #define LOG(msg) __android_log_print(100,"EGL Error",msg);
 
 GLESRenderer::GLESRenderer(android_app* pState)
         :
+        mCamera(),
        m_State(pState),
         m_Display(EGL_NO_DISPLAY),
         m_Context(EGL_NO_CONTEXT),
@@ -45,8 +47,9 @@ bool GLESRenderer::OnInit()
             return false;
         }
 
-        glClearColor(0.0f,0.0f,0.0f,1.0f);
+        glClearColor(0.0f,0.0f,1.0f,1.0f);
         SetState(EProcessState::RUNNING);
+        glViewport(0,0,m_Width,m_Height);
 
         SetupObjects();
 
@@ -58,27 +61,6 @@ bool GLESRenderer::OnInit()
     return false;
 }
 
-void GLESRenderer::SetupObjects()
-{
-    TexturedPlane* plane = new TexturedPlane(glm::vec3(0.0f),glm::vec3(1.0f));
-    plane->Init();
-    mObjects.push_back(plane);
-
-    glm::mat4 projection = glm::perspective(45.0f,m_Width/float(m_Height),0.1f,100.0f);
-    for(auto object : mObjects)
-    {
-        object->GetShader().Use();
-        object->GetShader().SetMat4("projection",projection);
-    }
-
-  //  AAssetDir* dir = AAssetManager_openDir(m_State->activity->assetManager,"");
-    mTexture = new Texture2D("textures/tank.png");
-
-    glm::mat4 orthProj = glm::ortho(0.0f,float(m_Width),float(m_Height),0.0f,0.0f,1.0f);
-    mSprite = new SpriteRenderer();
-    mSprite->Init();
-    mSprite->GetShader().SetMat4("projection",orthProj);
-}
 
 
 void GLESRenderer::OnAbort()
@@ -145,7 +127,6 @@ bool GLESRenderer::InitSurface()
     eglQuerySurface(m_Display,m_Surface,EGL_WIDTH,&m_Width);
     eglQuerySurface(m_Display,m_Surface,EGL_HEIGHT,&m_Height);
 
-    glViewport(0,0,m_Width,m_Height);
 
     return true;
 }
@@ -164,17 +145,54 @@ bool GLESRenderer::InitContext()
     return true;
 }
 
+
+void GLESRenderer::SetupObjects()
+{
+    TexturedPlane* plane = new TexturedPlane(glm::vec3(0.0f));
+    plane->Init();
+   //mObjects.push_back(plane);
+
+    Cubemap* cubemap = new Cubemap();
+    cubemap->Init();
+    mObjects.push_back(cubemap);
+
+    glm::mat4 projection = glm::perspective(45.0f,m_Width/float(m_Height),0.1f,100.0f);
+    for(auto object : mObjects)
+    {
+        object->GetShader().Use();
+        object->GetShader().SetMat4("projection",projection);
+    }
+
+}
+
+void GLESRenderer::OnTouch(float X, float Y)
+{
+    mCamera.OnTouch(X,Y);
+}
+
+void GLESRenderer::OnTouchRelease(float x, float y)
+{
+    mCamera.OnTouchRelease(x,y);
+}
+
 void GLESRenderer::Update(float DeltaTime)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    for(auto object : mObjects)
+    for(auto object : mObjects) {
+        glm::mat4 view = mCamera.GetView();
+        object->GetShader().SetMat4("view",view);
         object->Tick();
+    }
 
+    //render cubemap
+
+
+    //render plane
     for(auto object : mObjects)
         object->Render();
 
-    mSprite->DrawImage(*mTexture,glm::vec2(m_Width/2.0f,m_Height/2.0f),glm::vec2(100.0f),glm::vec4(1.0f),0.0f);
+    //render particles
 
     eglSwapBuffers(m_Display,m_Surface);
 }

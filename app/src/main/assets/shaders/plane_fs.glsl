@@ -10,5 +10,4 @@ uniform sampler2D sampler0;
 void main()
 {
     finalColor = texture(sampler0,texCoords);
-
 }

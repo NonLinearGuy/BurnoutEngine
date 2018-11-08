@@ -130,14 +130,14 @@
 
 		mShader.Use();
 
-		mShader.SetMat4("model", model);
+		/*mShader.SetMat4("model", model);
 		mShader.Set1i("use_color", 0);
 		mShader.Set1i("sampler0", 0);
 		glActiveTexture(GL_TEXTURE0);
 		pTexture.Bind();
 		glBindVertexArray(mVAO);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-		glBindVertexArray(0);
+		glBindVertexArray(0);*/
 
 	}
 
@@ -196,7 +196,7 @@
 		mShader.Set1i("use_color", 0);
 
 		glActiveTexture(GL_TEXTURE0);
-		pTexture.Bind();
+		//pTexture.Bind();
 
 		glBindVertexArray(mVAO);
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);

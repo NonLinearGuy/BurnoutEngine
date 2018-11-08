@@ -13,6 +13,8 @@
 #include<ShaderProgram.hpp>
 #include<vector>
 #include<map>
+#include"Camera.hpp"
+
 
 
 class GLESRenderer : public IProcess
@@ -25,7 +27,8 @@ public:
     virtual bool OnInit() override;
     virtual void Update(float DeltaTime) override;
     virtual void OnAbort()override ;
-
+    virtual void OnTouch(float x,float y)override;
+    virtual void OnTouchRelease(float x, float y) override;
     void SetupObjects();
 
 private:
@@ -48,8 +51,11 @@ private:
 
     android_app* m_State;
 
-    class SpriteRenderer* mSprite;
-    class Texture2D* mTexture;
+    glm::mat4 mView;
+    glm::vec3 mFront;
+    glm::vec3 mCameraPosition;
+
+    Camera mCamera;
 };
 
 

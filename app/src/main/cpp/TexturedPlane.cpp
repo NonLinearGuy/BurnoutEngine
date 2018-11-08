@@ -3,17 +3,17 @@
 //
 
 #include "TexturedPlane.hpp"
-#include"stb_image.h"
 
 
-TexturedPlane::TexturedPlane(const glm::vec3& worldPosition,const glm::vec3& color) : Renderable(worldPosition), mColor(color)
+TexturedPlane::TexturedPlane(const glm::vec3& worldPosition) : Renderable(worldPosition)
 {
     mModel = glm::mat4();
-    mModel = glm::translate(mModel, glm::vec3(0.0f,0.0f,-5.0f));
+    mModel = glm::translate(mModel, glm::vec3(0.0f,0.0f,-10.0f));
     mModel = glm::scale(mModel,glm::vec3(5.0f,5.0f,5.0f));
+    mModel = glm::rotate(mModel,-45.0f,glm::vec3(1.0f,0.0f,0.0f));
 
     texture = Texture2D();
-    texture.CreateTexture("textures/sprite_enemy.png");
+    texture.CreateTexture("textures/grass.png");
 }
 
 void TexturedPlane::Init() {
@@ -21,8 +21,7 @@ void TexturedPlane::Init() {
 
     mShaderProgram.Create("shaders/plane_vs.glsl","shaders/plane_fs.glsl");
 
-    float attribs[] =
-            {
+    float attribs[] = {
                     -0.5f,-.5f,0.0f, 0.0f,0.0f,
                     0.5f,-0.5f,0.0f, 1.0f,0.0f,
                     0.5f,0.5f,0.0f,  1.0f,1.0f,
@@ -63,8 +62,7 @@ void TexturedPlane::Render()
 {
     mShaderProgram.Use();
     SetShaderValues();
-    glActiveTexture(GL_TEXTURE0);
-    texture.Bind();
+    texture.BindToUnit(GL_TEXTURE0);
     glBindVertexArray(mVAO);
     glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
     glBindVertexArray(0);
@@ -73,7 +71,7 @@ void TexturedPlane::Render()
 void TexturedPlane::SetShaderValues()
 {
     mShaderProgram.SetMat4("model",mModel);
-    mShaderProgram.SetVec3("color",mColor);
+     mShaderProgram.Set1i("sampler0",0);
 }
 
 

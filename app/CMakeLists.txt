@@ -24,6 +24,8 @@ add_library( burnout_engine
              src/main/cpp/android_fopen.c
              src/main/cpp/SpriteRenderer.cpp
              src/main/cpp/Texture2D.cpp
+               src/main/cpp/Camera.cpp
+               src/main/cpp/Cubemap.cpp
              )
 
 add_library(native_app_glue STATIC

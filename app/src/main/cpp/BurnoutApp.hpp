@@ -7,6 +7,7 @@
 
 #include"android_native_app_glue.h"
 #include"ProcessHandler.hpp"
+#include"android/input.h"
 
 class BurnoutApp
 {
@@ -16,6 +17,7 @@ public:
     bool Initialize();
     void Run();
     static void HandleCommand(android_app* appState,int32_t Command);
+    static int32_t HandleInput(android_app* appState,AInputEvent* event);
 
 private:
     std::shared_ptr<android_app> m_State;

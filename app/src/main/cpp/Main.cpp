@@ -11,16 +11,12 @@
 extern "C"
 {
 
-Triangle* triangle = NULL;
-struct android_app* gApp = NULL;
 void android_main(android_app *state) {
     auto sharedAppState = std::make_shared<android_app>();
     sharedAppState.reset(state);
 
     FileReader::GetInstance()->sAssetManager = state->activity->assetManager;
     android_fopen_set_asset_manager(state->activity->assetManager);
-
-  //  android_fopen_set_asset_manager(state->activity->assetManager);
 
     BurnoutApp *app = new BurnoutApp(sharedAppState);
     if (app->Initialize())

@@ -86,6 +86,17 @@ void ProcessHandler::Tick()
 
 }
 
+void ProcessHandler::OnTouch(float x, float y)
+{
+    for(auto process : m_ActiveProcessList)
+        process->OnTouch(x,y);
+}
+
+void ProcessHandler::OnTouchRelease(float x, float y)
+{
+    for(auto process : m_ActiveProcessList)
+        process->OnTouchRelease(x,y);
+}
 
 void ProcessHandler::AddProcess(SharedProcess NewProcess)
 {

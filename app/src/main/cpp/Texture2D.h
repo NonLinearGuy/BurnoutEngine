@@ -3,8 +3,8 @@
 
 #include<string>
 #include<GLES3/gl3.h>
-
 #include<glm/glm.hpp>
+#include<ShaderProgram.hpp>
 
 class Texture2D
 {
@@ -32,14 +32,17 @@ class Texture2D
 		{
 			return mImage;
 		}
+
+        void Delete();
 		//functions
-		GLvoid Bind()const;
+		GLvoid BindToUnit(GLenum textureUnit)const;
 		GLvoid Unbind()const;
 	private:
 		GLuint mID;
 		glm::vec2 mSize;
 		GLenum mFormat;
 		unsigned char* mImage;
+
 };
 
 #endif

@@ -37,6 +37,8 @@ public:
     virtual void OnSuccess() {}
     virtual void Update(float DeltaTime) = 0;
 
+    virtual void OnTouch(float X,float Y){};
+    virtual void OnTouchRelease(float x, float y){};
     SharedProcess RemoveChild();
 
     inline EProcessState GetState();

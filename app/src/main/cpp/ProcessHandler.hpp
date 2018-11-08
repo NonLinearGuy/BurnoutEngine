@@ -24,6 +24,8 @@ public:
     void AbortAll();
     void Pause();
     void Resume();
+    void OnTouch(float x, float y);
+    void OnTouchRelease(float x,float y);
     inline unsigned GetProcessCount();
 
     void Tick();
