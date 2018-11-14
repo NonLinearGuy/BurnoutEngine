@@ -8,6 +8,7 @@
 #include"Delay.hpp"
 #include"GLESRenderer.hpp"
 #include"android/log.h"
+#include"Random.h"
 
 BurnoutApp::BurnoutApp(std::shared_ptr<android_app> state) : m_State(state),m_Kernel(ProcessHandler::GetInstance())
 {
@@ -47,6 +48,7 @@ void BurnoutApp::Run() {
             }
             }
 
+        Random::GetInstance()->Update();
         m_Kernel->Tick();
     }
 

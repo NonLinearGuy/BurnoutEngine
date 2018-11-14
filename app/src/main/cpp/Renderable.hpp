@@ -17,7 +17,7 @@ public:
     virtual void Init(){}
     virtual void Destroy(){mShaderProgram.Delete();}
     virtual void Render(){}
-    virtual void Tick(){}
+    virtual void Tick(double DeltaTime){}
 
     inline ShaderProgram GetShader()
     {

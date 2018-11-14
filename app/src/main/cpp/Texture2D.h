@@ -13,7 +13,7 @@ class Texture2D
 		Texture2D();
 
 		Texture2D(const std::string& path);
-		GLuint CreateTexture(const std::string& path);
+		GLuint CreateTexture(const std::string& path,bool repeat = false);
 		~Texture2D();
 		//Getters
 		inline GLuint GetID() const
@@ -37,7 +37,7 @@ class Texture2D
 		//functions
 		GLvoid BindToUnit(GLenum textureUnit)const;
 		GLvoid Unbind()const;
-	private:
+	protected:
 		GLuint mID;
 		glm::vec2 mSize;
 		GLenum mFormat;

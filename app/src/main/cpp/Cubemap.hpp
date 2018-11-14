@@ -18,7 +18,7 @@ public:
     void LoadVertices();
     void LoadTextures();
     void SetupShaderValues();
-    void Tick()override;
+    void Tick(double deltaTime)override;
     void Render()override;
 
 private:

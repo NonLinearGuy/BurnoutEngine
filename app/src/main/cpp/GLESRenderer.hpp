@@ -14,6 +14,8 @@
 #include<vector>
 #include<map>
 #include"Camera.hpp"
+#include"ParticleSystem.hpp"
+
 
 
 
@@ -56,6 +58,10 @@ private:
     glm::vec3 mCameraPosition;
 
     Camera mCamera;
+
+    ParticleManager* mParticleManager;
+    class SpriteRenderer* mRenderer;
+    class Texture2D* texture;
 };
 
 

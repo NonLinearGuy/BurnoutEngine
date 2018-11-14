@@ -18,7 +18,23 @@ public:
     void OnTouch(float x,float y);
     void OnTouchRelease(float x, float y);
 
-    glm::mat4 GetView();
+    glm::vec3 GetPosition() const
+    {
+        return mPosition;
+    }
+
+    glm::mat4 GetView() const;
+
+    void Update(float deltaTime)
+    {
+      /*  static float angle = .1f;
+        angle+=.01;
+        mPosition.x = 3.0f * cos(angle);
+        mPosition.z = 3.0f * sin(angle);*/
+
+        //mView = glm::lookAt(mPosition,mPosition + mFront,glm::vec3(0.0f,1.0f,0.0f));
+    }
+
 private:
 
     bool mIsFirstTouch;

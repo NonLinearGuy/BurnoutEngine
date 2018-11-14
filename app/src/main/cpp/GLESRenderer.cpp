@@ -14,6 +14,9 @@
 #include"SpriteRenderer.h"
 #include"Camera.hpp"
 #include"Cubemap.hpp"
+#include"DTManager.hpp"
+#include<stdio.h>
+#include"text_renderer.h"
 
 #define LOG(msg) __android_log_print(100,"EGL Error",msg);
 
@@ -47,13 +50,15 @@ bool GLESRenderer::OnInit()
             return false;
         }
 
-        glClearColor(0.0f,0.0f,1.0f,1.0f);
+        glClearColor(0.1f,0.1f,.4f,1.0f);
         SetState(EProcessState::RUNNING);
         glViewport(0,0,m_Width,m_Height);
 
-        SetupObjects();
-
         glEnable(GL_DEPTH_TEST);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+
+        SetupObjects();
 
         return true;
     }
@@ -102,7 +107,8 @@ bool GLESRenderer::InitSurface()
                     EGL_BLUE_SIZE, 8,
                     EGL_GREEN_SIZE, 8,
                     EGL_RED_SIZE, 8,
-                    EGL_DEPTH_SIZE, 16,
+                    EGL_ALPHA_SIZE,8,
+                    EGL_DEPTH_SIZE, 24,
                     EGL_NONE
             };
 
@@ -146,22 +152,29 @@ bool GLESRenderer::InitContext()
 }
 
 
-void GLESRenderer::SetupObjects()
-{
-    TexturedPlane* plane = new TexturedPlane(glm::vec3(0.0f));
+void GLESRenderer::SetupObjects() {
+
+
+    TexturedPlane *plane = new TexturedPlane(glm::vec3(0.0f));
     plane->Init();
-   //mObjects.push_back(plane);
+    mObjects.push_back(plane);
 
-    Cubemap* cubemap = new Cubemap();
-    cubemap->Init();
-    mObjects.push_back(cubemap);
+    //Cubemap *cubemap = new Cubemap();
+    //cubemap->Init();
+   // mObjects.push_back(cubemap);
 
-    glm::mat4 projection = glm::perspective(45.0f,m_Width/float(m_Height),0.1f,100.0f);
-    for(auto object : mObjects)
-    {
+    glm::mat4 projection = glm::perspective(45.0f, m_Width / float(m_Height), 0.1f, 100.0f);
+    for (auto object : mObjects) {
         object->GetShader().Use();
-        object->GetShader().SetMat4("projection",projection);
+        object->GetShader().SetMat4("projection", projection);
+        object->GetShader().SetVec3("cameraPos", mCamera.GetPosition());
     }
+
+    mParticleManager = new ParticleManager();
+    mParticleManager->Init();
+    mParticleManager->GetShader().Use();
+    mParticleManager->GetShader().SetMat4("projection",projection);
+
 
 }
 
@@ -177,22 +190,27 @@ void GLESRenderer::OnTouchRelease(float x, float y)
 
 void GLESRenderer::Update(float DeltaTime)
 {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-    for(auto object : mObjects) {
+    DTManager::GetInstance()->Update();
+    float dt = DTManager::GetInstance()->GetDeltaTimeInSeconds();
+
+    for(auto object : mObjects)
+    {
+        mCamera.Update(dt);
         glm::mat4 view = mCamera.GetView();
+        object->GetShader().Use();
         object->GetShader().SetMat4("view",view);
-        object->Tick();
+          object->Tick(dt);
+        mParticleManager->Tick(mCamera,dt);
+
+      //  __android_log_print(100,"DT","%f",dt);
     }
 
-    //render cubemap
-
-
-    //render plane
     for(auto object : mObjects)
         object->Render();
 
-    //render particles
+    mParticleManager->Render();
 
     eglSwapBuffers(m_Display,m_Surface);
 }

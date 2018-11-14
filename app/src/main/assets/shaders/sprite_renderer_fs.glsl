@@ -10,8 +10,5 @@ out vec4 finalColor;
 
 void main()
 {  
-	if (use_color)
-		finalColor = color;
-	else
-		finalColor = texture(sampler0, texCoords);  
+	finalColor = vec4(1.0f);
 }

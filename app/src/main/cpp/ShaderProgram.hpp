@@ -24,12 +24,13 @@ public:
 
     void Set1i(const std::string& varName,int value);
     void Set1f(const std::string& varName,float value);
+    void SetVec2(const std::string& varName,const glm::vec2& value);
     void SetVec3(const std::string& varName,const glm::vec3& value);
     void SetMat4(const std::string& varName,glm::mat4& model);
 
 private:
 
-    static const int MAX_BUFFER_SIZE = 1024;
+    static const int MAX_BUFFER_SIZE = 2084;
     GLuint mProgramID;
 };
 

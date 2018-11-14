@@ -11,7 +11,7 @@
 Cubemap::Cubemap() : Renderable(glm::vec3(0.0f)) {
     mTextureID = 0;
     mModel = glm::mat4();
-}
+  }
 
 Cubemap::~Cubemap() {
     glDeleteTextures(1,&mTextureID);
@@ -102,7 +102,7 @@ void Cubemap::LoadTextures() {
 
     for(int index = 0 ; index < 6 ; ++index)
     {
-        image = stbi_load("textures/sprite_enemy.png",&width,&height,&channels,0);
+        image = stbi_load(("skybox/" + mFaceNames[index] + ".tga").c_str(),&width,&height,&channels,0);
         GLenum format = channels==4?GL_RGBA:GL_RGB;
         glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + index,0,format,width,height,0,format,GL_UNSIGNED_BYTE,image);
         stbi_image_free(image);
@@ -124,12 +124,19 @@ void Cubemap::SetupShaderValues() {
 }
 
 
-void Cubemap::Tick() {
-    Renderable::Tick();
+void Cubemap::Tick(double Deltatime) {
+    Renderable::Tick(Deltatime);
+
+    static float angle = 0.0;
+    angle+=1.0;
+    mModel = glm::mat4();
+    mModel = glm::rotate(mModel, glm::radians(angle),glm::vec3(.5f,.5f,0.0f));
 }
 
 void Cubemap::Render() {
     Renderable::Render();
+
+    glDepthFunc(GL_LEQUAL);
     mShaderProgram.Use();
     SetupShaderValues();
     glActiveTexture(GL_TEXTURE0);
@@ -137,5 +144,7 @@ void Cubemap::Render() {
     glBindVertexArray(mVAO);
     glDrawArrays(GL_TRIANGLES,0,36);
     glBindVertexArray(0);
+    glDepthFunc(GL_LESS);
+
 }
 

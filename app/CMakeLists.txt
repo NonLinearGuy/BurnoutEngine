@@ -16,16 +16,20 @@ add_library( burnout_engine
              src/main/cpp/IProcess.cpp
              src/main/cpp/ProcessHandler.cpp
              src/main/cpp/Delay.cpp
-             src/main/cpp/GLESRenderer
-             src/main/cpp/Triangle
-             src/main/cpp/ShaderProgram
-             src/main/cpp/FileReader
-             src/main/cpp/TexturedPlane
+             src/main/cpp/GLESRenderer.cpp
+             src/main/cpp/ShaderProgram.cpp
+             src/main/cpp/FileReader.cpp
+             src/main/cpp/TexturedPlane.cpp
              src/main/cpp/android_fopen.c
              src/main/cpp/SpriteRenderer.cpp
              src/main/cpp/Texture2D.cpp
                src/main/cpp/Camera.cpp
                src/main/cpp/Cubemap.cpp
+               src/main/cpp/ParticleSystem.cpp
+               src/main/cpp/ParticlesRenderer.cpp
+               src/main/cpp/DTManager.cpp
+               src/main/cpp/Random.cpp
+
              )
 
 add_library(native_app_glue STATIC

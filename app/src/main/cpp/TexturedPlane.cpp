@@ -8,12 +8,18 @@
 TexturedPlane::TexturedPlane(const glm::vec3& worldPosition) : Renderable(worldPosition)
 {
     mModel = glm::mat4();
-    mModel = glm::translate(mModel, glm::vec3(0.0f,0.0f,-10.0f));
-    mModel = glm::scale(mModel,glm::vec3(5.0f,5.0f,5.0f));
-    mModel = glm::rotate(mModel,-45.0f,glm::vec3(1.0f,0.0f,0.0f));
+    mModel = glm::rotate(mModel,-90.0f,glm::vec3(1.0f,0.0f,0.0f));
+    mModel = glm::translate(mModel, glm::vec3(0.0f,0.0f,0.0f));
+    mModel = glm::scale(mModel,glm::vec3(30.0f));
 
-    texture = Texture2D();
-    texture.CreateTexture("textures/grass.png");
+    grass0 = Texture2D();
+    grass0.CreateTexture("textures/grass.png",true);
+    path1 = Texture2D();
+    path1.CreateTexture("textures/pathDiffuse.png",true);
+    blendFactor2 = Texture2D();
+    blendFactor2.CreateTexture("textures/blendFactor.png",true);
+    normalMap3 = Texture2D();
+    normalMap3.CreateTexture("textures/pathNormal.png",true);
 }
 
 void TexturedPlane::Init() {
@@ -52,26 +58,42 @@ void TexturedPlane::Init() {
 
 
 
-void TexturedPlane::Tick()
+void TexturedPlane::Tick(double Deltatime)
 {
-
+Renderable::Tick(Deltatime);
 
 }
 
 void TexturedPlane::Render()
 {
+
+Renderable::Render();
     mShaderProgram.Use();
     SetShaderValues();
-    texture.BindToUnit(GL_TEXTURE0);
+    grass0.BindToUnit(GL_TEXTURE0);
+    path1.BindToUnit(GL_TEXTURE1);
+    blendFactor2.BindToUnit(GL_TEXTURE2);
+    normalMap3.BindToUnit(GL_TEXTURE3);
     glBindVertexArray(mVAO);
     glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_INT,0);
     glBindVertexArray(0);
+
 }
 
 void TexturedPlane::SetShaderValues()
 {
     mShaderProgram.SetMat4("model",mModel);
-     mShaderProgram.Set1i("sampler0",0);
+     mShaderProgram.Set1i("grass0",0);
+    mShaderProgram.Set1i("path1",1);
+    mShaderProgram.Set1i("blendFactor2",2);
+    mShaderProgram.Set1i("normalMap3",3);
+
+    mShaderProgram.SetVec3("uLightPosition",glm::vec3(0.0f,1.0f,0.0f));
+    mShaderProgram.SetVec3("lightColor", glm::vec3(1.0f,1.0f,1.0f));
+    mShaderProgram.Set1f("lightIntensity", 8.0f);
+    mShaderProgram.Set1f("constant",.001f);
+    mShaderProgram.Set1f("linear",0.0f);
+    mShaderProgram.Set1f("quadratic",.5f);
 }
 
 

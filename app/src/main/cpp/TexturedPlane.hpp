@@ -13,11 +13,14 @@ public:
     TexturedPlane(const glm::vec3& worldPosition);
     void Init()override;
     void Destroy()override;
-    void Tick()override;
+    void Tick(double DeltaTime)override;
     void Render() override;
     void SetShaderValues();
 private:
-    Texture2D texture;
+    Texture2D grass0;
+    Texture2D path1;
+    Texture2D blendFactor2;
+    Texture2D  normalMap3;
 };
 
 
