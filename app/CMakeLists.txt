@@ -29,6 +29,7 @@ add_library( burnout_engine
                src/main/cpp/ParticlesRenderer.cpp
                src/main/cpp/DTManager.cpp
                src/main/cpp/Random.cpp
+               src/main/cpp/TextRenderer.cpp
 
              )
 

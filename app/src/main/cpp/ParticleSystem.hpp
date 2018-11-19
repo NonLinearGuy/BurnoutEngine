@@ -47,35 +47,23 @@ private:
     glm::vec2 mNormFrameSize;
 };
 
-struct Particle
+struct alignas(16) Particle
 {
-    int mCurrentFrame;
-    glm::vec4 mPosition;
-    glm::vec2 mScale;
-    float mAlpha;
-    int mTexUnit;
-    glm::vec4 mVelocity;
-    float mElapsedTime;
-    float mLifeTime;
-    float mRegionUpdateTime;
-    float mRegionUpdateElapsed;
-    glm::vec2 DUDV;
-
-    glm::vec4 mInitialVelocity;
-    glm::vec4 mFinalVelocity;
-    glm::vec2 mMinScale;
-    glm::vec2 mMaxScale;
-
-    ParticleTextureAtlas mTextureAtlas;
-
-    bool IsAlive()
-    {
-        return mElapsedTime <= mLifeTime;
-    }
+    glm::vec3 mPosition;
+    glm::vec3 mVelocity;
+    glm::vec4 mColor;
+    float mSpeed;
+    float mLifetime;
+    float mSize;
+    float mCameraDistance;
 
     void Reset();
-
     void Update(float dt);
+    inline bool IsAlive(){return mLifetime > 0.0f;}
+    bool operator < (Particle& other)
+    {
+        return this->mCameraDistance > other.mCameraDistance;
+    }
 };
 
 
@@ -90,17 +78,20 @@ public:
     void SetShaderValues();
     inline ShaderProgram GetShader(){return mRenderer.GetShader();}
     void Render();
+    int GetLastUsedParticle();
+    void CreateNewParticles(int number);
+    void SortParticles();
 private:
-    const int POOL_SIZE = 500;
+    const int POOL_SIZE = 5000;
+    int mParticleCount;
     std::vector<Particle> mParticles;
     ParticlesRenderer mRenderer;;
-    std::vector<glm::vec3> mPositions;
-    std::vector<glm::vec4> mValues;
-    std::vector<glm::vec2> mTexCoords;
+    std::vector<glm::vec4> mPositionScale;
+    std::vector<glm::vec4> mColors;
+    std::vector<int> mDeadIndices;
+    //for transforming
     glm::mat4 mModel;
     glm::mat4 mView;
-    ParticleTextureAtlas mFire;
-    ParticleTextureAtlas mSmoke;
 };
 
 

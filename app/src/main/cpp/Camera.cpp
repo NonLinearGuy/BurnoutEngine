@@ -48,5 +48,5 @@ void Camera::OnTouch(float x, float y)
     glm::normalize(mFront);
 
     mView = glm::mat4();
-    mView = glm::lookAt(mPosition,mPosition + mFront,glm::vec3(0.0f,1.0f,0.0f));
+    mView = glm::lookAt(mPosition,glm::vec3(0.0f,1.0f,0.0f),glm::vec3(0.0f,1.0f,0.0f));
 }

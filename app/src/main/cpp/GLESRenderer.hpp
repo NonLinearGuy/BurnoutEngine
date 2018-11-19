@@ -62,6 +62,8 @@ private:
     ParticleManager* mParticleManager;
     class SpriteRenderer* mRenderer;
     class Texture2D* texture;
+
+    class TextRenderer* mText;
 };
 
 

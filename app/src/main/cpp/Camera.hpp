@@ -27,12 +27,12 @@ public:
 
     void Update(float deltaTime)
     {
-      /*  static float angle = .1f;
-        angle+=.01;
-        mPosition.x = 3.0f * cos(angle);
-        mPosition.z = 3.0f * sin(angle);*/
+        static float angle = 0.0f;
+        angle+=.004;
+        mPosition.x = 4.0f * cos(angle);
+        mPosition.z = 4.0f * sin(angle);
 
-        //mView = glm::lookAt(mPosition,mPosition + mFront,glm::vec3(0.0f,1.0f,0.0f));
+        mView = glm::lookAt(mPosition,glm::vec3(0.0f,1.0f,0.0f),glm::vec3(0.0f,1.0f,0.0f));
     }
 
 private:

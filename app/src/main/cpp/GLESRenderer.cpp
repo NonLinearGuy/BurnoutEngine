@@ -16,7 +16,7 @@
 #include"Cubemap.hpp"
 #include"DTManager.hpp"
 #include<stdio.h>
-#include"text_renderer.h"
+#include"TextRenderer.hpp"
 
 #define LOG(msg) __android_log_print(100,"EGL Error",msg);
 
@@ -50,7 +50,7 @@ bool GLESRenderer::OnInit()
             return false;
         }
 
-        glClearColor(0.1f,0.1f,.4f,1.0f);
+        glClearColor(0.0f,0.0f,0.0f,1.0f);
         SetState(EProcessState::RUNNING);
         glViewport(0,0,m_Width,m_Height);
 
@@ -155,13 +155,13 @@ bool GLESRenderer::InitContext()
 void GLESRenderer::SetupObjects() {
 
 
-    TexturedPlane *plane = new TexturedPlane(glm::vec3(0.0f));
+  /*  TexturedPlane *plane = new TexturedPlane(glm::vec3(0.0f));
     plane->Init();
     mObjects.push_back(plane);
 
-    //Cubemap *cubemap = new Cubemap();
-    //cubemap->Init();
-   // mObjects.push_back(cubemap);
+    Cubemap *cubemap = new Cubemap();
+    cubemap->Init();
+    mObjects.push_back(cubemap);
 
     glm::mat4 projection = glm::perspective(45.0f, m_Width / float(m_Height), 0.1f, 100.0f);
     for (auto object : mObjects) {
@@ -173,9 +173,17 @@ void GLESRenderer::SetupObjects() {
     mParticleManager = new ParticleManager();
     mParticleManager->Init();
     mParticleManager->GetShader().Use();
-    mParticleManager->GetShader().SetMat4("projection",projection);
+    mParticleManager->GetShader().SetMat4("projection",projection);*/
 
+    Texture2D fontText;
+    fontText.CreateTexture("bitmap fonts/gothic.png");
 
+    mText = new TextRenderer();
+    mText->Init(fontText,"bitmap fonts/gothic.fnt");
+
+    glm::mat4 projection = glm::ortho(0.0f,float(m_Width),float(m_Height),0.0f,0.0f,1.0f);
+    mText->GetShader().Use();
+    mText->GetShader().SetMat4("projection",projection);
 }
 
 void GLESRenderer::OnTouch(float X, float Y)
@@ -192,7 +200,7 @@ void GLESRenderer::Update(float DeltaTime)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-    DTManager::GetInstance()->Update();
+   /* DTManager::GetInstance()->Update();
     float dt = DTManager::GetInstance()->GetDeltaTimeInSeconds();
 
     for(auto object : mObjects)
@@ -210,7 +218,9 @@ void GLESRenderer::Update(float DeltaTime)
     for(auto object : mObjects)
         object->Render();
 
-    mParticleManager->Render();
+    mParticleManager->Render();*/
+
+    mText->Text(glm::vec2(50.0f),10.0f,glm::vec3(1.0f),"Example");
 
     eglSwapBuffers(m_Display,m_Surface);
 }
