@@ -13,13 +13,14 @@
 
 void Particle::Reset() {
     mPosition = glm::vec3(Random::GetInstance()->GetOnXZ(-0.1f,0.1f));
+    mPosition.y = 1.0f;
     mVelocity.x = Random::GetInstance()->Real(-.2,.2);
     mVelocity.y =  1.0f;
     mSize = .5f;
-    mLifetime = Random::GetInstance()->Real(1.0f,2.0f);
-    mSpeed = Random::GetInstance()->Real(.2f,.7f);
+    mLifetime = Random::GetInstance()->Real(4.0f,6.0f);
+    mSpeed = Random::GetInstance()->Real(.1f,.5f);
     mColor = glm::vec4(Random::GetInstance()->GetPointOnUnitSphere(),1.0f);
-    mCameraDistance = 0;
+    mCameraDistance = -1;
     mTexPoint = glm::vec2(0.0f);
     mElapsedFrameTime = 0.0f;
     mCurrentFrameIndex = -1;
@@ -177,6 +178,7 @@ void ParticleManager::Render()
         mColors[mParticleCount] = particle.mColor;
         mTexCoords[mParticleCount] = particle.mTexPoint;
     }
+
     mRenderer.GetShader().Use();
     SetShaderValues();
     mAtlas.BindToUnit(GL_TEXTURE0);

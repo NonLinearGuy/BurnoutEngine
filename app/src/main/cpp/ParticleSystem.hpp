@@ -86,7 +86,7 @@ public:
     void CreateNewParticles(int number);
     void SortParticles();
 private:
-    const int POOL_SIZE = 500;
+    const int POOL_SIZE = 30;
     int mParticleCount;
     std::vector<Particle> mParticles;
     ParticlesRenderer mRenderer;;

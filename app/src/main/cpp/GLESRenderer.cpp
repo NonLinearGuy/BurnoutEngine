@@ -50,7 +50,7 @@ bool GLESRenderer::OnInit()
             return false;
         }
 
-        glClearColor(0.0f,0.0f,0.0f,1.0f);
+        glClearColor(.2f,0.7f,0.2f,1.0f);
         SetState(EProcessState::RUNNING);
         glViewport(0,0,m_Width,m_Height);
 
@@ -159,9 +159,9 @@ void GLESRenderer::SetupObjects() {
     plane->Init();
     mObjects.push_back(plane);
 
-    Cubemap *cubemap = new Cubemap();
+  /* Cubemap *cubemap = new Cubemap();
     cubemap->Init();
-    mObjects.push_back(cubemap);
+    mObjects.push_back(cubemap);*/
 
     glm::mat4 projection = glm::perspective(45.0f, m_Width / float(m_Height), 0.1f, 100.0f);
     for (auto object : mObjects) {
