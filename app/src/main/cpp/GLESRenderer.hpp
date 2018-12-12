@@ -15,6 +15,7 @@
 #include<map>
 #include"Camera.hpp"
 #include"ParticleSystem.hpp"
+#include"TextRenderer.hpp"
 
 
 
@@ -63,7 +64,7 @@ private:
     class SpriteRenderer* mRenderer;
     class Texture2D* texture;
 
-    class TextRenderer* mText;
+    TextRenderer* mText;
 };
 
 

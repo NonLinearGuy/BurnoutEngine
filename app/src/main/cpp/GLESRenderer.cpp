@@ -155,7 +155,7 @@ bool GLESRenderer::InitContext()
 void GLESRenderer::SetupObjects() {
 
 
-  /*  TexturedPlane *plane = new TexturedPlane(glm::vec3(0.0f));
+    TexturedPlane *plane = new TexturedPlane(glm::vec3(0.0f));
     plane->Init();
     mObjects.push_back(plane);
 
@@ -173,7 +173,7 @@ void GLESRenderer::SetupObjects() {
     mParticleManager = new ParticleManager();
     mParticleManager->Init();
     mParticleManager->GetShader().Use();
-    mParticleManager->GetShader().SetMat4("projection",projection);*/
+    mParticleManager->GetShader().SetMat4("projection",projection);
 
     Texture2D fontText;
     fontText.CreateTexture("bitmap fonts/gothic.png");
@@ -181,9 +181,9 @@ void GLESRenderer::SetupObjects() {
     mText = new TextRenderer();
     mText->Init(fontText,"bitmap fonts/gothic.fnt");
 
-    glm::mat4 projection = glm::ortho(0.0f,float(m_Width),float(m_Height),0.0f,0.0f,1.0f);
+    glm::mat4 textProjection = glm::ortho(0.0f,float(m_Width),float(m_Height),0.0f,0.0f,1.0f);
     mText->GetShader().Use();
-    mText->GetShader().SetMat4("projection",projection);
+    mText->GetShader().SetMat4("projection",textProjection);
 }
 
 void GLESRenderer::OnTouch(float X, float Y)
@@ -200,7 +200,7 @@ void GLESRenderer::Update(float DeltaTime)
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-   /* DTManager::GetInstance()->Update();
+   DTManager::GetInstance()->Update();
     float dt = DTManager::GetInstance()->GetDeltaTimeInSeconds();
 
     for(auto object : mObjects)
@@ -218,9 +218,9 @@ void GLESRenderer::Update(float DeltaTime)
     for(auto object : mObjects)
         object->Render();
 
-    mParticleManager->Render();*/
+    mParticleManager->Render();
 
-    mText->Text(glm::vec2(50.0f),10.0f,glm::vec3(1.0f),"Example");
+   mText->Text(glm::vec2(50.0f),30.0f,glm::vec3(1.0f),"Deltatime = %f",dt);
 
     eglSwapBuffers(m_Display,m_Surface);
 }

@@ -42,7 +42,7 @@ void TextRenderer::Init(const Texture2D& texture,const std::string& pathToFNT)
 
         mCharacters.insert(std::pair<char, character>(static_cast<char>(id), c));
 
-        if (result == EOF) break;
+        if (result == '\xff') break;
     }
 
     fclose(file);

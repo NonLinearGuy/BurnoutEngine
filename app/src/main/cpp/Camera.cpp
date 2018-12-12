@@ -6,7 +6,7 @@
 #include <math.h>
 
 
-Camera::Camera() : mPosition(0.0f,3.0f,0.0f),mFront(0.0f,0.0f,-1.0f),mSenstivity(10.0f){
+Camera::Camera() : mPosition(0.0f,1.0f,3.0f),mFront(0.0f,0.0f,-1.0f),mSenstivity(10.0f){
     mIsFirstTouch = true;
     pitch = -90.f;
     yaw = 0.0f;
@@ -48,5 +48,5 @@ void Camera::OnTouch(float x, float y)
     glm::normalize(mFront);
 
     mView = glm::mat4();
-    mView = glm::lookAt(mPosition,glm::vec3(0.0f,1.0f,0.0f),glm::vec3(0.0f,1.0f,0.0f));
+    mView = glm::lookAt(mPosition,mPosition + mFront,glm::vec3(0.0f,1.0f,0.0f));
 }

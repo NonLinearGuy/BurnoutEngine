@@ -47,8 +47,12 @@ private:
     glm::vec2 mNormFrameSize;
 };
 
-struct alignas(16) Particle
+struct Particle
 {
+    float mFrameUpdateTime;
+    float mElapsedFrameTime;
+    int mCurrentFrameIndex;
+    glm::vec2 mTexPoint;
     glm::vec3 mPosition;
     glm::vec3 mVelocity;
     glm::vec4 mColor;
@@ -82,16 +86,20 @@ public:
     void CreateNewParticles(int number);
     void SortParticles();
 private:
-    const int POOL_SIZE = 5000;
+    const int POOL_SIZE = 500;
     int mParticleCount;
     std::vector<Particle> mParticles;
     ParticlesRenderer mRenderer;;
     std::vector<glm::vec4> mPositionScale;
     std::vector<glm::vec4> mColors;
+    std::vector<glm::vec2> mTexCoords;
     std::vector<int> mDeadIndices;
     //for transforming
     glm::mat4 mModel;
     glm::mat4 mView;
+    Camera mCamera;
+    ParticleTextureAtlas mAtlas;
+
 };
 
 
